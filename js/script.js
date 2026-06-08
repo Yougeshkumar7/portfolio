@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinksItems = document.querySelectorAll('.nav-link');
     const backToTopBtn = document.getElementById('backToTop');
     const contactForm = document.getElementById('contactForm');
-    const formInputs = document.querySelectorAll('#contactForm input, #contactForm textarea');
+    const formInputs = document.querySelectorAll('#contactForm input:not([type="hidden"]), #contactForm textarea');
     const header = document.querySelector('header');
     const profileImage = document.querySelector('.about-image .image-container');
     const projectCards = document.querySelectorAll('.project-card');
@@ -19,12 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`Image failed to load: ${imgPath}`);
             
             // Try to determine what kind of image this is
-            if (imgPath.includes('profile')) {
-                this.src = 'https://via.placeholder.com/400x400/4a89dc/ffffff?text=Profile+Image';
+            if (imgPath.includes('profile') || imgPath.includes('yogi')) {
+                this.src = 'https://placehold.co/400x400/4a89dc/ffffff?text=Yougesh+Kumar';
             } else if (imgPath.includes('project')) {
-                this.src = 'https://via.placeholder.com/350x200/4a89dc/ffffff?text=Project+Image';
+                this.src = 'https://placehold.co/800x500/4a89dc/ffffff?text=Project';
             } else {
-                this.src = 'https://via.placeholder.com/300x300/4a89dc/ffffff?text=Image';
+                this.src = 'https://placehold.co/600x400/4a89dc/ffffff?text=Image';
             }
             
             // Remove loading="lazy" to ensure placeholder is loaded
@@ -182,8 +182,90 @@ document.addEventListener('DOMContentLoaded', () => {
         return re.test(String(email).toLowerCase());
     }
 
-    // Form submit event
-    contactForm.addEventListener('submit', validateForm);
+    // Form submit event - AJAX submission via FormSubmit
+    const formStatus = document.getElementById('formStatus');
+
+    function showFormStatus(message, type) {
+        if (!formStatus) return;
+        formStatus.textContent = message;
+        formStatus.className = `form-status show ${type}`;
+        if (type === 'success') {
+            setTimeout(() => {
+                formStatus.classList.remove('show');
+            }, 6000);
+        }
+    }
+
+    const OWNER_EMAIL = 'katariayougesh@gmail.com';
+
+    // Opens the visitor's email client pre-filled. Used as a fallback when no
+    // Web3Forms access key has been configured yet, so the form always works.
+    function mailtoFallback(name, email, subject, message) {
+        const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${encodeURIComponent(message)}`;
+        window.location.href =
+            `mailto:${OWNER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`;
+    }
+
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Run validation first
+        if (!validateForm(e)) {
+            showFormStatus('Please fix the errors above and try again.', 'error');
+            return;
+        }
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const subject = document.getElementById('subject').value;
+        const message = document.getElementById('message').value;
+        const accessKey = contactForm.querySelector('input[name="access_key"]').value;
+
+        // No real key configured yet → open the user's email client instead.
+        if (!accessKey || accessKey === 'YOUR_ACCESS_KEY_HERE') {
+            showFormStatus('Opening your email app… (set up Web3Forms for one-click sending)', 'success');
+            mailtoFallback(name, email, subject, message);
+            return;
+        }
+
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.classList.add('is-sending');
+        submitBtn.textContent = 'Sending...';
+
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    access_key: accessKey,
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    message: message,
+                    from_name: 'Portfolio Contact Form',
+                    botcheck: contactForm.querySelector('input[name="botcheck"]').checked
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                showFormStatus('✓ Thank you! Your message has been sent successfully.', 'success');
+                contactForm.reset();
+            } else {
+                throw new Error(data.message || 'Submission failed');
+            }
+        } catch (err) {
+            showFormStatus(`Something went wrong. Please email me directly at ${OWNER_EMAIL}`, 'error');
+        } finally {
+            submitBtn.classList.remove('is-sending');
+            submitBtn.textContent = originalText;
+        }
+    });
 
     // Real-time validation on input
     formInputs.forEach(input => {
@@ -229,12 +311,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    // Observe skill items and project cards for animation
-    document.querySelectorAll('.skill-item, .project-card').forEach((item, index) => {
+    // Observe skill items, project cards and certification cards for animation
+    document.querySelectorAll('.skill-item, .project-card, .cert-card').forEach((item, index) => {
         // Add staggered animation with delay based on index
         item.classList.add('fade-in');
-        item.style.transitionDelay = `${index * 0.1}s`;
+        item.style.transitionDelay = `${(index % 6) * 0.1}s`;
         animationObserver.observe(item);
+    });
+
+    // Scroll-reveal for section headings and content blocks
+    document.querySelectorAll(
+        '.section-title, .about-text, .about-image, .skills-category, .contact-info, .contact-form'
+    ).forEach(el => {
+        el.classList.add('reveal');
+        animationObserver.observe(el);
     });
 
     // Lazy load images that don't use the loading="lazy" attribute
@@ -287,4 +377,99 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    /* ============================================
+       NEW FEATURES
+       ============================================ */
+
+    // ---------- Dark Mode Toggle ----------
+    const themeToggle = document.getElementById('themeToggle');
+
+    function setTheme(isDark) {
+        document.body.classList.toggle('dark-mode', isDark);
+        if (themeToggle) {
+            const icon = themeToggle.querySelector('i');
+            if (icon) {
+                icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+        try {
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        } catch (e) { /* storage unavailable */ }
+    }
+
+    // Load saved theme (or follow system preference on first visit)
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem('theme'); } catch (e) {}
+    if (savedTheme) {
+        setTheme(savedTheme === 'dark');
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setTheme(true);
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            setTheme(!document.body.classList.contains('dark-mode'));
+        });
+    }
+
+    // ---------- Scroll Progress Bar ----------
+    const scrollProgress = document.getElementById('scrollProgress');
+    if (scrollProgress) {
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            scrollProgress.style.width = `${percent}%`;
+        });
+    }
+
+    // ---------- Hero Typing Effect ----------
+    const typedEl = document.getElementById('typedText');
+    if (typedEl) {
+        const phrases = ['Web Developer', 'AI / ML Enthusiast', 'Python Developer', 'Designer'];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const current = phrases[phraseIndex];
+            if (isDeleting) {
+                typedEl.textContent = current.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedEl.textContent = current.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let delay = isDeleting ? 50 : 110;
+
+            if (!isDeleting && charIndex === current.length) {
+                delay = 1800; // pause at full word
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                delay = 400;
+            }
+
+            setTimeout(type, delay);
+        }
+        type();
+    }
+
+    // ---------- Animated Skill Bars ----------
+    // Read each bar's target width from its inline style and expose it as
+    // a CSS variable so it animates from 0 when the skill scrolls into view.
+    document.querySelectorAll('.skill-item .progress').forEach(bar => {
+        const target = bar.style.width || '0%';
+        bar.parentElement.parentElement.style.setProperty('--skill-level', target);
+        bar.style.width = '0';
+    });
+
+    // ---------- Dynamic Footer Year ----------
+    const yearEl = document.getElementById('currentYear');
+    if (yearEl) {
+        yearEl.textContent = new Date().getFullYear();
+    }
 }); 
