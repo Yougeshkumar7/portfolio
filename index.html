@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Yougesh Kataria</title>
-    <meta name="description" content="Professional portfolio of Yougesh Kataria, Web Developer & Designer based in Sukkur, Sindh, Pakistan.">
-    <!-- Simple relative path without ./ -->
+    <title>Yougesh Kumar | Web Developer & AI/ML Enthusiast</title>
+    <meta name="description" content="Portfolio of Yougesh Kumar — Web Developer and AI/ML enthusiast and Software Engineering student at Sukkur IBA University. Projects in web development, Python and machine learning.">
+    <meta name="keywords" content="Yougesh Kumar, Web Developer, AI, Machine Learning, Python, JavaScript, React, Portfolio, Sukkur IBA">
+    <meta name="author" content="Yougesh Kumar">
+    <meta name="theme-color" content="#4a89dc">
+
+    <!-- Open Graph / social share -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Yougesh Kumar | Web Developer & AI/ML Enthusiast">
+    <meta property="og:description" content="Web Developer and AI/ML enthusiast. Explore my projects in web development, Python and machine learning.">
+    <meta property="og:image" content="https://placehold.co/1200x630/2c3e50/ffffff?text=Yougesh+Kumar">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Yougesh Kumar | Web Developer & AI/ML Enthusiast">
+    <meta name="twitter:description" content="Web Developer and AI/ML enthusiast. Explore my projects in web development, Python and machine learning.">
+    <meta name="twitter:image" content="https://placehold.co/1200x630/2c3e50/ffffff?text=Yougesh+Kumar">
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="img/favicon.png">
-    
+    <!-- Inline SVG favicon (no external file needed) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232c3e50'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='30' fill='%234a89dc'%3EYK%3C/text%3E%3C/svg%3E">
+
     <!-- Critical inline CSS as fallback -->
     <style>
         :root {
@@ -113,6 +126,9 @@
     </style>
 </head>
 <body>
+    <!-- Scroll Progress Bar -->
+    <div id="scrollProgress" class="scroll-progress"></div>
+
     <!-- Header -->
     <header>
         <div class="container">
@@ -124,7 +140,13 @@
                     <li><a href="#about" class="nav-link">About</a></li>
                     <li><a href="#projects" class="nav-link">Projects</a></li>
                     <li><a href="#skills" class="nav-link">Skills</a></li>
+                    <li><a href="#certifications" class="nav-link">Certifications</a></li>
                     <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li>
+                        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
                 </ul>
                 <div class="hamburger">
                     <span class="bar"></span>
@@ -139,11 +161,12 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>Hello, I'm <span>Yougesh Kataria</span></h1>
-                <p>Web Developer & Designer</p>
+                <h1>Hello, I'm <span>Yougesh Kumar</span></h1>
+                <p class="hero-typed">I'm a <span id="typedText"></span><span class="type-cursor">|</span></p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">View My Work</a>
                     <a href="#contact" class="btn btn-secondary">Contact Me</a>
+                    <a href="cv.pdf" class="btn btn-primary" download><i class="fas fa-download"></i> Download CV</a>
                 </div>
             </div>
         </div>
@@ -157,11 +180,11 @@
                 <div class="about-image">
                     <div class="image-container custom-shape">
                         <div class="image-frame"></div>
-                        <img src="yogi.jpg" alt="Yougesh Kataria" loading="lazy" class="pulse-effect">
+                        <img src="yogi.jpg" alt="Yougesh Kumar" loading="lazy" class="pulse-effect">
                         <div class="image-overlay">
                             <div class="overlay-content">
-                                <h3>Yougesh Kataria</h3>
-                                <p>Web Developer</p>
+                                <h3>Yougesh Kumar</h3>
+                                <p>Web Developer & AI/ML</p>
                             </div>
                         </div>
                     </div>
@@ -169,11 +192,15 @@
                 <div class="about-text">
                     <h3>Who I Am</h3>
                     <p>I am a passionate web developer with a strong focus on creating beautiful, functional websites. With expertise in HTML, CSS, and JavaScript, I build responsive web applications that provide excellent user experiences across all devices.</p>
-                    <p>My goal is to combine technical skills with creative design to deliver high-quality web solutions that meet my clients' needs.</p>
+                    <p>Beyond web development, I also work with Python and Artificial Intelligence / Machine Learning &mdash; building data-driven models such as classification and fraud-detection systems. I love combining clean front-end design with intelligent, AI-powered solutions.</p>
                     <div class="about-details">
                         <div class="detail">
                             <i class="fas fa-envelope"></i>
                             <span>katariayougesh@gmail.com</span>
+                        </div>
+                        <div class="detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>BS Software Engineering, Sukkur IBA University</span>
                         </div>
                         <div class="detail">
                             <i class="fas fa-map-marker-alt"></i>
@@ -190,70 +217,113 @@
         <div class="container">
             <h2 class="section-title">My Projects</h2>
             <div class="projects-grid">
-                <!-- Project 1 -->
+                <!-- Project 1: Chronos -->
                 <div class="project-card">
                     <div class="project-img">
-                        <img src="img/project1.jpg" alt="Project 1" loading="lazy">
+                        <img src="https://placehold.co/800x500/4a89dc/ffffff?text=CHRONOS" alt="Chronos Watches Store" loading="lazy">
                         <div class="overlay-icon">
                             <i class="fas fa-eye"></i>
                         </div>
                     </div>
                     <div class="project-info">
-                        <h3>E-Commerce Website</h3>
-                        <p>A fully responsive e-commerce platform built with HTML, CSS, and JavaScript.</p>
+                        <h3>Chronos &ndash; Watches Store</h3>
+                        <p>A sleek, fully responsive online watches store with a modern product showcase and clean UI.</p>
                         <div class="project-tags">
                             <span>HTML</span>
                             <span>CSS</span>
                             <span>JavaScript</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="btn btn-small"><i class="fas fa-eye"></i> Demo</a>
-                            <a href="#" class="btn btn-small"><i class="fab fa-github"></i> Code</a>
+                            <a href="https://yougeshkumar7.github.io/CHRONOS/" class="btn btn-small" target="_blank" rel="noopener"><i class="fas fa-eye"></i> Live Demo</a>
+                            <a href="https://github.com/Yougeshkumar7/CHRONOS" class="btn btn-small" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
-                <!-- Project 2 -->
+                <!-- Project 2: Python Quiz System -->
                 <div class="project-card">
                     <div class="project-img clip-path-effect">
-                        <img src="img/project2.jpg" alt="Project 2" loading="lazy">
+                        <img src="https://placehold.co/800x500/3d5afe/ffffff?text=Quiz+System" alt="Python Quiz System" loading="lazy">
                         <div class="overlay-icon">
                             <i class="fas fa-eye"></i>
                         </div>
                     </div>
                     <div class="project-info">
-                        <h3>Portfolio Design</h3>
-                        <p>A modern portfolio website showcasing creative design and smooth animations.</p>
+                        <h3>Python Quiz System</h3>
+                        <p>An interactive quiz application that presents questions, tracks scores, and gives instant feedback.</p>
                         <div class="project-tags">
+                            <span>Python</span>
                             <span>HTML</span>
-                            <span>CSS</span>
                             <span>JavaScript</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="btn btn-small"><i class="fas fa-eye"></i> Demo</a>
-                            <a href="#" class="btn btn-small"><i class="fab fa-github"></i> Code</a>
+                            <a href="https://yougeshkumar7.github.io/quiz/" class="btn btn-small" target="_blank" rel="noopener"><i class="fas fa-eye"></i> Live Demo</a>
+                            <a href="https://github.com/Yougeshkumar7/quiz" class="btn btn-small" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
-                <!-- Project 3 -->
+                <!-- Project 3: GPA Calculator -->
                 <div class="project-card">
                     <div class="project-img">
-                        <img src="img/project3.jpg" alt="Project 3" class="grayscale-effect" loading="lazy">
+                        <img src="https://placehold.co/800x500/2c3e50/ffffff?text=GPA+Calculator" alt="GPA Calculator" loading="lazy">
                         <div class="overlay-icon">
                             <i class="fas fa-eye"></i>
                         </div>
                     </div>
                     <div class="project-info">
-                        <h3>Weather App</h3>
-                        <p>A weather application that fetches and displays current weather data.</p>
+                        <h3>GPA Calculator</h3>
+                        <p>A handy tool to calculate grade point average from course grades and credit hours in real time.</p>
                         <div class="project-tags">
                             <span>HTML</span>
                             <span>CSS</span>
                             <span>JavaScript</span>
-                            <span>API</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="btn btn-small"><i class="fas fa-eye"></i> Demo</a>
-                            <a href="#" class="btn btn-small"><i class="fab fa-github"></i> Code</a>
+                            <a href="https://yougeshkumar7.github.io/GPA_Calculator/" class="btn btn-small" target="_blank" rel="noopener"><i class="fas fa-eye"></i> Live Demo</a>
+                            <a href="https://github.com/Yougeshkumar7/GPA_Calculator" class="btn btn-small" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 4: Tickora Habit Tracker -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://placehold.co/800x500/4a89dc/ffffff?text=Tickora" alt="Tickora Habit Tracker" loading="lazy">
+                        <div class="overlay-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Tickora &ndash; Habit Tracker</h3>
+                        <p>A habit-tracking app to build routines, mark daily progress, and stay consistent with your goals.</p>
+                        <div class="project-tags">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://yougeshkumar7.github.io/Tickora/" class="btn btn-small" target="_blank" rel="noopener"><i class="fas fa-eye"></i> Live Demo</a>
+                            <a href="https://github.com/Yougeshkumar7/Tickora" class="btn btn-small" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 5: Credit Card Fraud Detection -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://placehold.co/800x500/2c3e50/ffffff?text=Fraud+Detection+ML" alt="Credit Card Fraud Detection System" loading="lazy">
+                        <div class="overlay-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Credit Card Fraud Detection</h3>
+                        <p>A machine learning model that detects fraudulent credit card transactions using classification techniques.</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>Machine Learning</span>
+                            <span>Pandas</span>
+                            <span>scikit-learn</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Yougeshkumar7/credit_card_fraud_detection_system" class="btn btn-small" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
@@ -300,8 +370,22 @@
                     </div>
                 </div>
                 <div class="skills-category">
-                    <h3>Other Skills</h3>
+                    <h3>Programming & AI/ML</h3>
                     <div class="skills-grid">
+                        <div class="skill-item">
+                            <i class="fab fa-python"></i>
+                            <h4>Python</h4>
+                            <div class="progress-bar">
+                                <div class="progress" style="width:85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-brain"></i>
+                            <h4>AI / ML</h4>
+                            <div class="progress-bar">
+                                <div class="progress" style="width:75%"></div>
+                            </div>
+                        </div>
                         <div class="skill-item">
                             <i class="fab fa-java"></i>
                             <h4>Java</h4>
@@ -336,6 +420,56 @@
         </div>
     </section>
 
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications">
+        <div class="container">
+            <h2 class="section-title">Licenses & Certifications</h2>
+            <div class="certs-grid">
+                <div class="cert-card">
+                    <div class="cert-icon"><i class="fas fa-robot"></i></div>
+                    <div class="cert-body">
+                        <h3>Google AI Essentials</h3>
+                        <p class="cert-issuer">United Latino Students Association</p>
+                        <span class="cert-date">Issued Dec 2025</span>
+                        <span class="cert-id">Credential ID: WY8Y5GL0FDNM</span>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon"><i class="fas fa-comments"></i></div>
+                    <div class="cert-body">
+                        <h3>Google Prompting Essentials</h3>
+                        <p class="cert-issuer">Coursera</p>
+                        <span class="cert-date">Issued Jul 2025</span>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon"><i class="fas fa-code"></i></div>
+                    <div class="cert-body">
+                        <h3>Claude Code in Action</h3>
+                        <p class="cert-issuer">Anthropic</p>
+                        <span class="cert-date">Issued Mar 2026</span>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon"><i class="fas fa-brain"></i></div>
+                    <div class="cert-body">
+                        <h3>Claude 101</h3>
+                        <p class="cert-issuer">Anthropic</p>
+                        <span class="cert-date">Issued Mar 2026</span>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon"><i class="fab fa-figma"></i></div>
+                    <div class="cert-body">
+                        <h3>Introduction to Figma</h3>
+                        <p class="cert-issuer">Simplilearn</p>
+                        <span class="cert-date">Issued Dec 2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
@@ -359,14 +493,21 @@
                         </div>
                     </div>
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/yougesh-kumar-06150b318" class="social-link" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/Yougeshkumar7" class="social-link" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
                 <div class="contact-form">
-                    <form id="contactForm" action="https://formsubmit.co/katariayougesh@gmail.com" method="POST">
+                    <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                        <!-- Web3Forms config (hidden) -->
+                        <!-- 1) Go to https://web3forms.com  2) Enter katariayougesh@gmail.com
+                             3) Copy the Access Key you receive  4) paste it below instead of YOUR_ACCESS_KEY_HERE -->
+                        <input type="hidden" name="access_key" value="a96fc0ec-adf4-46d6-a924-e02fa87230a5">
+                        <input type="hidden" name="subject" value="New message from your portfolio!">
+                        <input type="hidden" name="from_name" value="Portfolio Contact Form">
+                        <!-- Honeypot spam protection (leave empty) -->
+                        <input type="checkbox" name="botcheck" class="hidden" style="display:none">
+                        <div id="formStatus" class="form-status" role="alert"></div>
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" id="name" name="name" required>
@@ -405,17 +546,16 @@
                     <a href="#about">About</a>
                     <a href="#projects">Projects</a>
                     <a href="#skills">Skills</a>
+                    <a href="#certifications">Certifications</a>
                     <a href="#contact">Contact</a>
                 </div>
                 <div class="footer-social">
-                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/yougesh-kumar-06150b318" class="social-link" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/Yougeshkumar7" class="social-link" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2023 Yougesh Kataria. All Rights Reserved.</p>
+                <p>&copy; <span id="currentYear">2023</span> Yougesh Kumar. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
